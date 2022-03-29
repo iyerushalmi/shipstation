@@ -58,10 +58,12 @@ module Shipstation
     attr_writer :password
 
     def request method, resource, params = {}
-      ss_username = params[:username] || Shipstation.username
-      ss_password = params[:password] || Shipstation.password
+      ss_username = Shipstation.username
+      ss_password = Shipstation.password
 
-      params.except!(:username, :password)
+      if params.is_a?(Hash)
+        params.except!(:username, :password)
+      end
 
       defined? method or raise(
         ArgumentError, "Request method has not been specified"
